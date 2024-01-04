@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "298091005150",
+    "project_id": "wearzeta-63507",
+    "storage_bucket": "wearzeta-63507.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:298091005150:android:6a940914de0fafdfc5ee4f",
+        "android_client_info": {
+          "package_name": "com.zeta.mywear"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5i_8ynUnC2Fe-_2DLKv1P_qULO56kBpQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
