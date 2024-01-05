@@ -6,10 +6,23 @@
     android:padding="16dp"
     tools:context=".LoginActivity">
 
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="129dp"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="30dp" />
+
     <EditText
         android:id="@+id/usernameEditText"
         android:layout_width="134dp"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="51dp"
         android:hint="Username"
         android:inputType="number" />
 
@@ -18,24 +31,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/usernameEditText"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="10dp"
         android:hint="Password"
-        android:inputType="number"/>
+        android:inputType="number" />
 
     <Button
         android:id="@+id/loginButton"
-        android:layout_width="match_parent"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/passwordEditText"
-        android:layout_marginTop="16dp"
-        android:text="Login"/>
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="37dp"
+        android:text="Login" />
 
-    <TextView
-        android:id="@+id/welcomeMessage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/loginButton"
-        android:layout_marginTop="16dp"
-        android:text=""
-        android:textSize="18sp"/>
 </RelativeLayout>

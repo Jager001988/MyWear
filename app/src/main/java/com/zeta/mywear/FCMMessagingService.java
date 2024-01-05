@@ -4,20 +4,25 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Build;
 import android.util.Log;
 
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+
+import org.json.JSONException;
 
 
 public class FCMMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "FCMMessagingService";
     public static final String NOTIFICATION_CHANNEL = "channel-notification";
-
+    private static final String PREFERENCES_NAME = "MyPreferences";
     //@Override
     //public void onCreate() {
       //  super.onCreate();
@@ -87,8 +92,26 @@ public class FCMMessagingService extends FirebaseMessagingService {
     public void onNewToken(String token) {
         // Handle the creation or refreshing of the FCM registration token.
         Log.d(TAG, "Refreshed token: " + token);
+        try {
+            String TokenLogin = getToken();
+            ApiManager.sendToken(TokenLogin, token, new ApiManager.ApiCallback() {
+                @Override
+                public void onResponse(ApiManager.ApiResponse response) throws JSONException {
+                    if (response.getStatusCode() == 200) {
+
+                    } else {
+                        // Gestire il fallimento
+                    }
+                }
+            });
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
 
         // If you need to send the token to your server, implement that logic here.
     }
-
+    private String getToken() {
+        SharedPreferences preferences = getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
+        return preferences.getString("token", null);
+    }
 }

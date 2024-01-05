@@ -15,10 +15,13 @@ import javax.net.ssl.HttpsURLConnection;
 public class ApiManager {
 
     private static final String BASE_URL = "https://demo.zetaconsulting.it/z16/trunk/api/web/v1/wears";
+    private static final String BASE_URL_TOOLS = "https://api.toolsadm.zetaconsulting.it/v1/restapis";
     private static final String LOGIN_ENDPOINT = "/login";
     private static final String COUNTINTERVENTI = "/countInterventi";
+    private static final String GETAZIENDE = "/getAziendez16";
     private static final String LISTINTERVENTI = "/listInterventi";
     private static final String UPDATEINTERVENTO = "/updateIntervento";
+    private static final String SENDTOKEN = "/sendToken";
 
     // Metodo per eseguire una chiamata GET
     public static void get(String token, ApiCallback callback) {
@@ -27,14 +30,20 @@ public class ApiManager {
     }
 
     // Metodo per eseguire una chiamata POST per il login
-    public static void login(String badgeCode, String badgeCodePwd, ApiCallback callback) throws JSONException {
+    public static void login(String badgeCode, String badgeCodePwd,String tokenFireBase, ApiCallback callback) throws JSONException {
         String url = BASE_URL + LOGIN_ENDPOINT;
         JSONObject requestBody = new JSONObject();
         requestBody.put("badgecode", badgeCode);
         requestBody.put("badgecodepwd", badgeCodePwd);
+        requestBody.put("tokenFireBase", tokenFireBase);
         new ApiTask(callback).execute(url, "POST", requestBody.toString(), null);
     }
-
+    public static void sendToken(String token, String tokenFireBase, ApiCallback callback) throws JSONException {
+        String url = BASE_URL + SENDTOKEN;
+        JSONObject requestBody = new JSONObject();
+        requestBody.put("tokenFireBase", tokenFireBase);
+        new ApiTask(callback).execute(url, "POST", requestBody.toString(), token);
+    }
 
     public static void countInterventi(String token, ApiCallback callback) throws JSONException {
         String url = BASE_URL + COUNTINTERVENTI;
@@ -50,7 +59,10 @@ public class ApiManager {
         String url = BASE_URL + UPDATEINTERVENTO +"?id="+id_intervento+"&id_stato="+id_stato;
         new ApiTask(callback).execute(url, "GET", null, token);
     }
-
+    public static void getAziende(ApiCallback callback) throws JSONException {
+        String url = BASE_URL_TOOLS + GETAZIENDE;
+        new ApiTask(callback).execute(url, "GET", null,null);
+    }
 
     // Classe AsyncTask per gestire le chiamate API in background
     private static class ApiTask extends AsyncTask<String, Void, ApiResponse> {
