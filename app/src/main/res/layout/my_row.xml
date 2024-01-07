@@ -8,12 +8,13 @@
     android:layout_marginBottom="1dp"
     android:paddingLeft="3dp"
     android:paddingRight="3dp"
+    android:id="@+id/contenitoreIntervento"
     android:background="@drawable/rounded_interventi"
     >
 
     <TextView
         android:id="@+id/impianto"
-
+        android:textColor="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1" />
@@ -21,12 +22,14 @@
     <TextView
         android:id="@+id/tipoAttivita"
         android:layout_width="match_parent"
+        android:textColor="@color/white"
         android:layout_height="wrap_content"
         android:layout_weight="1" />
     <TextView
         android:id="@+id/data_richiesta"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@color/white"
         android:layout_weight="1" />
 
 </LinearLayout>

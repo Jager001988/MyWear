@@ -24,8 +24,8 @@
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:layout_width="151dp"
-            android:layout_height="176dp"
+            android:layout_width="150dp"
+            android:layout_height="159dp"
             android:orientation="vertical"
             app:layout_anchor="@+id/constraintLayout2"
             app:layout_anchorGravity="center"
@@ -35,51 +35,49 @@
             app:layout_constraintTop_toTopOf="parent">
 
 
-
             <TextView
                 android:id="@+id/impianto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="..."
-                android:textColor="@color/white"
                 android:background="@color/greyTrasparente"
-                />
+                android:text="..."
+                android:textColor="@color/white" />
 
             <TextView
-                android:id="@+id/tipoIntervento"
+                android:id="@+id/tipo_intervento"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="..."
-                android:textColor="@color/white"
                 android:background="@color/greyTrasparente"
-                />
+                android:text="..."
+                android:textColor="@color/white" />
 
             <TextView
-                android:id="@+id/dataRichiesta"
+                android:id="@+id/data_richiesta"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/greyTrasparente"
                 android:text="..."
-                android:textColor="@color/white"
-                android:background="@color/greyTrasparente"/>
+                android:textColor="@color/white" />
 
             <TextView
                 android:id="@+id/stato"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/greyTrasparente"
                 android:text="..."
-                android:textColor="@color/white"
-                android:background="@color/greyTrasparente"/>
+                android:textColor="@color/white" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
+
                 <Button
                     android:id="@+id/lavora"
                     android:layout_width="match_parent"
                     android:layout_height="33dp"
-                    android:background="@drawable/rounded_button_incorso"
                     android:layout_marginTop="5dp"
+                    android:background="@drawable/rounded_button_incorso"
                     android:text="Lavora" />
 
                 <Button
@@ -92,9 +90,6 @@
 
 
             </LinearLayout>
-
-
-
 
 
         </LinearLayout>

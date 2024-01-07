@@ -5,11 +5,13 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
+import java.util.Objects;
 
 // Create the basic adapter extending from RecyclerView.Adapter
 // Note that we specify the custom ViewHolder which gives us access to our views
@@ -23,7 +25,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
         public TextView impiantoTextView;
         public TextView tipoAttivitaTextView;
         public TextView dataRichiestaTextView;
-
+        public LinearLayout myLinearLayout;
 
         // We also create a constructor that accepts the entire item row
         // and does the view lookups to find each subview
@@ -46,8 +48,8 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
                         intent.putExtra("id_intervento", selectedItem.getId_intervento());
                         intent.putExtra("id_stato", selectedItem.getId_stato());
                         intent.putExtra("impianto", selectedItem.getImpianto());
-                        intent.putExtra("dataRichiesta", selectedItem.getDataRichiesta());
-                        intent.putExtra("tipoIntervento", selectedItem.getTipoIntervento());
+                        intent.putExtra("data_richiesta", selectedItem.getData_richiesta());
+                        intent.putExtra("tipo_intervento", selectedItem.getTipo_intervento());
                         intent.putExtra("stato", selectedItem.getStato());
                         itemView.getContext().startActivity(intent);
                     }
@@ -58,7 +60,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
             impiantoTextView = (TextView) itemView.findViewById(R.id.impianto);
             tipoAttivitaTextView = (TextView) itemView.findViewById(R.id.tipoAttivita);
             dataRichiestaTextView = (TextView) itemView.findViewById(R.id.data_richiesta);
-
+            myLinearLayout = itemView.findViewById(R.id.contenitoreIntervento);
         }
     }
 
@@ -89,10 +91,20 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
         textView.setText(intervento.getImpianto());
 
         TextView textViewTipoAttivita = holder.tipoAttivitaTextView;
-        textViewTipoAttivita.setText(intervento.getTipoIntervento());
+        textViewTipoAttivita.setText(intervento.getTipo_intervento());
 
         TextView textData = holder.dataRichiestaTextView;
-        textData.setText(intervento.getDataRichiesta());
+        textData.setText(intervento.getData_richiesta());
+
+
+        if(Objects.equals(TypeStato.APERTO.getId(), intervento.getId_stato()))    {
+            holder.myLinearLayout.setBackgroundResource(R.drawable.rounded_button_aperti);
+        }else if (Objects.equals(TypeStato.IN_CORSO.getId(), intervento.getId_stato())){
+            holder.myLinearLayout.setBackgroundResource(R.drawable.rounded_button_incorso);
+        }else if(Objects.equals(TypeStato.CHIUSO.getId(), intervento.getId_stato())){
+            holder.myLinearLayout.setBackgroundResource(R.drawable.rounded_button_chiusi);
+        }
+
 
         // Button button = holder.messageButton;
         // button.setText(contact.isOnline() ? "Message" : "Offline");

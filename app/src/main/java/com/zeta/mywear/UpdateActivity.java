@@ -48,19 +48,19 @@ public class UpdateActivity extends AppCompatActivity {
         Integer id_stato = getIntent().getIntExtra("id_stato",999);
         String impianto = getIntent().getStringExtra("impianto");
         String stato = getIntent().getStringExtra("stato");
-        String dataRichiesta = getIntent().getStringExtra("dataRichiesta");
-        String tipoIntervento = getIntent().getStringExtra("tipoIntervento");
+        String data_richiesta = getIntent().getStringExtra("data_richiesta");
+        String tipo_intervento = getIntent().getStringExtra("tipo_intervento");
 
         TextView impiantoTextView = findViewById(R.id.impianto);
         impiantoTextView.setText(impianto);
 
-        TextView tipoInterventoTextView = findViewById(R.id.tipoIntervento);
-        tipoInterventoTextView.setText(tipoIntervento);
+        TextView tipoInterventoTextView = findViewById(R.id.tipo_intervento);
+        tipoInterventoTextView.setText(tipo_intervento);
 
         TextView statoTextView = findViewById(R.id.stato);
         statoTextView.setText(stato);
-        TextView dataTextView = findViewById(R.id.dataRichiesta);
-        dataTextView.setText(dataRichiesta);
+        TextView dataTextView = findViewById(R.id.data_richiesta);
+        dataTextView.setText(data_richiesta);
 
         Button button_lavora = findViewById(R.id.lavora);
         Button button_chiudi = findViewById(R.id.chiudi);
@@ -82,7 +82,7 @@ public class UpdateActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 try {
-                    ApiManager.updateIntervento(getToken(), id_intervento, TypeStato.IN_CORSO.getId(), new ApiManager.ApiCallback() {
+                    ApiManager.updateIntervento(getBaseUrl(), getToken(), id_intervento, TypeStato.IN_CORSO.getId(), new ApiManager.ApiCallback() {
                         @Override
                         public void onResponse(ApiManager.ApiResponse response) throws JSONException {
                             if (response.getStatusCode() == 200) {
@@ -112,7 +112,7 @@ public class UpdateActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 try {
-                    ApiManager.updateIntervento(getToken(), id_intervento, TypeStato.CHIUSO.getId(), new ApiManager.ApiCallback() {
+                    ApiManager.updateIntervento(getBaseUrl(), getToken(), id_intervento, TypeStato.CHIUSO.getId(), new ApiManager.ApiCallback() {
                         @Override
                         public void onResponse(ApiManager.ApiResponse response) throws JSONException {
                             if (response.getStatusCode() == 200) {
@@ -158,5 +158,10 @@ public class UpdateActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("isLogged", logged);
         editor.apply();
+    }
+
+    private String getBaseUrl() {
+        SharedPreferences preferences = getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
+        return preferences.getString("linkAzienda", null);
     }
 }

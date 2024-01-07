@@ -20,71 +20,88 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp">
+        tools:layout_editor_absoluteX="-26dp"
+        tools:layout_editor_absoluteY="16dp">
 
-
-        <TextView
-            android:id="@+id/username"
-            android:layout_width="51dp"
-            android:layout_height="22dp"
-            android:text="User"
-            android:background="@color/grey"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.369"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.146" />
 
         <ImageButton
             android:id="@+id/imageButton"
             android:layout_width="29dp"
             android:layout_height="27dp"
-            android:layout_marginStart="12dp"
-            android:onClick="logout"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.114"
-            app:layout_constraintStart_toEndOf="@+id/username"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.125"
+            android:onClick="info"
+            app:layout_constraintEnd_toStartOf="@+id/username"
+            app:layout_constraintTop_toTopOf="@+id/username"
             app:srcCompat="@drawable/person" />
 
+        <TextView
+            android:id="@+id/username"
+            android:layout_width="51dp"
+            android:layout_height="22dp"
+            android:background="@color/grey"
+            android:text="User"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.335"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.146" />
+
+        <ImageButton
+            android:id="@+id/imageButton2"
+            android:layout_width="40dp"
+            android:layout_height="39dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.376"
+            app:layout_constraintStart_toEndOf="@+id/username"
+            app:layout_constraintTop_toTopOf="parent"
+            android:onClick="logout"
+            app:srcCompat="@drawable/logout" />
+
         <LinearLayout
-            android:layout_width="169dp"
-            android:layout_height="123dp"
+            android:layout_width="149dp"
+            android:layout_height="130dp"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.492"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.644">
+            app:layout_constraintVertical_bias="0.78">
 
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="23dp"
+                android:layout_height="36dp"
+                android:layout_marginTop="5dp"
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/buttonInCorso"
                 android:layout_width="match_parent"
                 android:layout_height="36dp"
-                android:text="In Corso #0"
-                android:background="@drawable/rounded_button_incorso" />
+                android:background="@drawable/rounded_button_incorso"
+                android:text="In Corso #0" />
 
             <Button
                 android:id="@+id/buttonAperti"
                 android:layout_width="match_parent"
                 android:layout_height="36dp"
-                android:text="Aperti #0"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/rounded_button_aperti"/>
+                android:background="@drawable/rounded_button_aperti"
+                android:text="Aperti #0" />
 
             <Button
                 android:id="@+id/buttonChiusi"
                 android:layout_width="match_parent"
                 android:layout_height="36dp"
                 android:layout_marginTop="5dp"
-                android:text="Chiusi #0"
-                android:background="@drawable/rounded_button_chiusi"/>
+                android:background="@drawable/rounded_button_chiusi"
+                android:text="Chiusi #0" />
+
+
         </LinearLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

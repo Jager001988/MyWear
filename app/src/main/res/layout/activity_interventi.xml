@@ -22,14 +22,16 @@
         android:layout_width="match_parent"
         android:layout_height="227dp">
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listInterventi"
-        android:layout_width="158dp"
-        android:layout_height="187dp"
-        app:layout_anchor="@+id/constraintLayout"
+        android:layout_width="142dp"
+        android:layout_height="167dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="32dp"
+        app:layout_anchor="@+id/backgroundImage"
         app:layout_anchorGravity="center" />
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

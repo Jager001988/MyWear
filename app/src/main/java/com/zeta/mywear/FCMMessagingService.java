@@ -17,6 +17,8 @@ import com.google.firebase.messaging.RemoteMessage;
 
 import org.json.JSONException;
 
+import java.util.Map;
+
 
 public class FCMMessagingService extends FirebaseMessagingService {
 
@@ -51,15 +53,33 @@ public class FCMMessagingService extends FirebaseMessagingService {
     }
 
     private void handleMessage(RemoteMessage remoteMessage) {
-        showNotification(remoteMessage.getNotification().getTitle(),remoteMessage.getNotification().getBody());
+        showNotification(remoteMessage.getNotification().getTitle(),remoteMessage);
     }
 
 
 
 
-    public void showNotification(String title, String messageBody) {
-
+    public void showNotification(String title, RemoteMessage remoteMessage) {
+        String messageBody = remoteMessage.getNotification().getBody();
+        Map<String, String> data = remoteMessage.getData();
         Intent intent = new Intent(this, MainActivity.class);
+        if (!data.isEmpty()) {
+            String id_intervento = data.get("id_intervento");
+            String impianto = data.get("impianto");
+            String tipo_intervento = data.get("tipo_intervento");
+            String data_richiesta = data.get("data_richiesta");
+            String stato = data.get("stato");
+            String id_stato = data.get("id_stato");
+
+            intent.putExtra("id_intervento", id_intervento);
+            intent.putExtra("impianto", impianto);
+            intent.putExtra("tipo_intervento", tipo_intervento);
+            intent.putExtra("data_richiesta", data_richiesta);
+            intent.putExtra("stato", stato);
+            intent.putExtra("id_stato", id_stato);
+        }
+
+
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
@@ -94,7 +114,7 @@ public class FCMMessagingService extends FirebaseMessagingService {
         Log.d(TAG, "Refreshed token: " + token);
         try {
             String TokenLogin = getToken();
-            ApiManager.sendToken(TokenLogin, token, new ApiManager.ApiCallback() {
+            ApiManager.sendToken(getBaseUrl(), TokenLogin, token, new ApiManager.ApiCallback() {
                 @Override
                 public void onResponse(ApiManager.ApiResponse response) throws JSONException {
                     if (response.getStatusCode() == 200) {
@@ -113,5 +133,10 @@ public class FCMMessagingService extends FirebaseMessagingService {
     private String getToken() {
         SharedPreferences preferences = getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
         return preferences.getString("token", null);
+    }
+
+    private String getBaseUrl() {
+        SharedPreferences preferences = getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
+        return preferences.getString("linkAzienda", null);
     }
 }

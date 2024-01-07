@@ -81,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
                         Azienda[] array = dataList.toArray(new Azienda[0]);
 
                         adapter = new SpinAdapter(LoginActivity.this,
-                                android.R.layout.rowazienda,
+                                R.layout.rowazienda,
                                 array);
                         mySpinner = (Spinner) findViewById(R.id.spinner);
                         mySpinner.setAdapter(adapter); // Set the custom adapter to the spinner
@@ -92,8 +92,8 @@ public class LoginActivity extends AppCompatActivity {
                             public void onItemSelected(AdapterView<?> adapterView, View view,
                                                        int position, long id) {
                                 // Here you get the current item (a User object) that is selected by its position
-                                Azienda user = adapter.getItem(position);
-
+                                Azienda azienda = adapter.getItem(position);
+                                setAzienda(azienda.getNome(), azienda.getLink());
                             }
                             @Override
                             public void onNothingSelected(AdapterView<?> adapter) {  }
@@ -130,7 +130,7 @@ public class LoginActivity extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     String tokenFireBase = task.getResult();
                                     try {
-                                        ApiManager.login(codiceBadge, password,tokenFireBase, new ApiManager.ApiCallback() {
+                                        ApiManager.login(getBaseUrl(),codiceBadge, password,tokenFireBase, new ApiManager.ApiCallback() {
                                             @Override
                                             public void onResponse(ApiManager.ApiResponse response) throws JSONException {
                                                 if (response.getStatusCode() == 200) {
@@ -176,6 +176,14 @@ public class LoginActivity extends AppCompatActivity {
         editor.apply();
     }
 
+    private void setAzienda(String nome, String link) {
+        SharedPreferences preferences = getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("nomeAzienda", nome);
+        editor.putString("linkAzienda", link);
+        editor.apply();
+    }
+
     private void saveCredentials(String badge, String password, String token, String username) {
         SharedPreferences preferences = getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
@@ -194,5 +202,10 @@ public class LoginActivity extends AppCompatActivity {
 
     private void showMessage(String message) {
         // Utilizza la tua logica per mostrare messaggi all'utente
+    }
+
+    private String getBaseUrl() {
+        SharedPreferences preferences = getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
+        return preferences.getString("linkAzienda", null);
     }
 }

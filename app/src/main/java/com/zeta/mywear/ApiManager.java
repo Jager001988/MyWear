@@ -1,6 +1,9 @@
 package com.zeta.mywear;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,7 +17,6 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class ApiManager {
 
-    private static final String BASE_URL = "https://demo.zetaconsulting.it/z16/trunk/api/web/v1/wears";
     private static final String BASE_URL_TOOLS = "https://api.toolsadm.zetaconsulting.it/v1/restapis";
     private static final String LOGIN_ENDPOINT = "/login";
     private static final String COUNTINTERVENTI = "/countInterventi";
@@ -24,39 +26,38 @@ public class ApiManager {
     private static final String SENDTOKEN = "/sendToken";
 
     // Metodo per eseguire una chiamata GET
-    public static void get(String token, ApiCallback callback) {
-        String url = BASE_URL;
-        new ApiTask(callback).execute(url, "GET", null, token);
+    public static void get(String baseUrl, String token, ApiCallback callback) {
+        new ApiTask(callback).execute(baseUrl, "GET", null, token);
     }
 
     // Metodo per eseguire una chiamata POST per il login
-    public static void login(String badgeCode, String badgeCodePwd,String tokenFireBase, ApiCallback callback) throws JSONException {
-        String url = BASE_URL + LOGIN_ENDPOINT;
+    public static void login(String baseUrl, String badgeCode, String badgeCodePwd,String tokenFireBase, ApiCallback callback) throws JSONException {
+        String url = baseUrl + LOGIN_ENDPOINT;
         JSONObject requestBody = new JSONObject();
         requestBody.put("badgecode", badgeCode);
         requestBody.put("badgecodepwd", badgeCodePwd);
         requestBody.put("tokenFireBase", tokenFireBase);
         new ApiTask(callback).execute(url, "POST", requestBody.toString(), null);
     }
-    public static void sendToken(String token, String tokenFireBase, ApiCallback callback) throws JSONException {
-        String url = BASE_URL + SENDTOKEN;
+    public static void sendToken(String baseUrl,String token, String tokenFireBase, ApiCallback callback) throws JSONException {
+        String url = baseUrl + SENDTOKEN;
         JSONObject requestBody = new JSONObject();
         requestBody.put("tokenFireBase", tokenFireBase);
         new ApiTask(callback).execute(url, "POST", requestBody.toString(), token);
     }
 
-    public static void countInterventi(String token, ApiCallback callback) throws JSONException {
-        String url = BASE_URL + COUNTINTERVENTI;
+    public static void countInterventi(String baseUrl,String token, ApiCallback callback) throws JSONException {
+        String url = baseUrl + COUNTINTERVENTI;
         new ApiTask(callback).execute(url, "GET", null, token);
     }
-    public static void listInterventi(String token, int id_stato, ApiCallback callback) throws JSONException {
-        String url = BASE_URL + LISTINTERVENTI +"?id_stato="+id_stato;
+    public static void listInterventi(String baseUrl,String token, int id_stato, ApiCallback callback) throws JSONException {
+        String url = baseUrl + LISTINTERVENTI +"?id_stato="+id_stato;
 
         new ApiTask(callback).execute(url, "GET", null, token);
     }
 
-    public static void updateIntervento(String token,int id_intervento, int id_stato, ApiCallback callback) throws JSONException {
-        String url = BASE_URL + UPDATEINTERVENTO +"?id="+id_intervento+"&id_stato="+id_stato;
+    public static void updateIntervento(String baseUrl,String token,int id_intervento, int id_stato, ApiCallback callback) throws JSONException {
+        String url = baseUrl + UPDATEINTERVENTO +"?id="+id_intervento+"&id_stato="+id_stato;
         new ApiTask(callback).execute(url, "GET", null, token);
     }
     public static void getAziende(ApiCallback callback) throws JSONException {
@@ -169,4 +170,7 @@ public class ApiManager {
             return body;
         }
     }
+
+
+
 }

@@ -3,8 +3,8 @@ package com.zeta.mywear;
 public class Intervento {
     private String impianto;
 
-    private String tipoIntervento;
-    private String dataRichiesta;
+    private String tipo_intervento;
+    private String data_richiesta;
     private String stato;
     private Integer id_stato;
 
@@ -17,12 +17,12 @@ public class Intervento {
     }
 
     private Integer id_intervento;
-    public String getTipoIntervento() {
-        return tipoIntervento;
+    public String getTipo_intervento() {
+        return tipo_intervento;
     }
 
-    public void setTipoIntervento(String tipoIntervento) {
-        this.tipoIntervento = tipoIntervento;
+    public void setTipo_intervento(String tipo_intervento) {
+        this.tipo_intervento = tipo_intervento;
     }
 
     public String getImpianto() {
@@ -33,12 +33,12 @@ public class Intervento {
         this.impianto = impianto;
     }
 
-    public String getDataRichiesta() {
-        return dataRichiesta;
+    public String getData_richiesta() {
+        return data_richiesta;
     }
 
-    public void setDataRichiesta(String dataRichiesta) {
-        this.dataRichiesta = dataRichiesta;
+    public void setData_richiesta(String data_richiesta) {
+        this.data_richiesta = data_richiesta;
     }
 
     public String getStato() {
