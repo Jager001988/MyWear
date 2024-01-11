@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Vibrator;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +18,7 @@ import android.content.DialogInterface;
 import android.widget.Toast;
 
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void doInitialization() {
+
+
         setContentView(R.layout.activity_main);
         username = findViewById(R.id.username);
         buttonChiusi = findViewById(R.id.buttonChiusi);
@@ -189,6 +194,27 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         // Esegui l'azione confermata, ad esempio, startActivity
                         setLogged(false);
+                        FirebaseMessaging firebaseMessaging = FirebaseMessaging.getInstance();
+                        // Ottenere il token dell'istanza corrente
+                        firebaseMessaging.getToken()
+                                .addOnCompleteListener(task -> {
+                                    if (task.isSuccessful()) {
+                                        String tokenFireBase = task.getResult();
+                                        try {
+                                            ApiManager.logout(getBaseUrl(),  getToken(),tokenFireBase, new ApiManager.ApiCallback() {
+                                                @Override
+                                                public void onResponse(ApiManager.ApiResponse response) throws JSONException {
+                                                    if (response.getStatusCode() == 200) {
+                                                        int tt=0;
+                                                    }
+                                                }
+                                            });
+                                        } catch (JSONException e) {
+                                            throw new RuntimeException(e);
+                                        }
+
+                                    }
+                                });
                         startActivity(new Intent(MainActivity.this, LoginActivity.class));
                     }
                 })

@@ -8,8 +8,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.graphics.Color;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
+import android.os.Vibrator;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -34,9 +41,17 @@ public class FCMMessagingService extends FirebaseMessagingService {
     /**
      * Called when message is received.
      *
-     * @param remoteMessage Object representing the message received from Firebase Cloud Messaging.
      */
 
+    @Override
+    public void onMessageSent(@NonNull String msgId){
+        Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+        long[] vibrationPattern = {0, 500, 50, 300};
+        //-1 - don't repeat
+        final int indexInPatternToRepeat = -1;
+        vibrator.vibrate(vibrationPattern, indexInPatternToRepeat);
+        super.onMessageSent(msgId);
+    }
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
@@ -46,7 +61,11 @@ public class FCMMessagingService extends FirebaseMessagingService {
         Log.d(TAG, "From: " + remoteMessage.getFrom());
         Log.d(TAG, "Notification Message Body: " + remoteMessage.getNotification().getBody());
 
-
+        Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+        long[] vibrationPattern = {0, 500, 50, 300};
+        //-1 - don't repeat
+        final int indexInPatternToRepeat = -1;
+        vibrator.vibrate(vibrationPattern, indexInPatternToRepeat);
 
 
         handleMessage(remoteMessage);
@@ -83,29 +102,36 @@ public class FCMMessagingService extends FirebaseMessagingService {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
-
         Resources r = getResources();
-        Notification notification = new Notification.Builder(this,NOTIFICATION_CHANNEL)
-                .setTicker(title)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle(title)
-                .setContentText(messageBody)
-                .setContentIntent(pendingIntent).setDefaults(Notification.DEFAULT_ALL)
-                .setChannelId(NOTIFICATION_CHANNEL)
-                .setStyle(new Notification.BigTextStyle()
-                        .bigText(messageBody))
-                .setAutoCancel(true).build();
 
-        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        // Configura il pattern di vibrazione
+        long[] vibrationPattern = {0, 500, 50, 300};
+        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        NotificationCompat.Builder notificationBuilder =
+                new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL)
+                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setContentTitle(title)
+                        .setContentText(messageBody)
+                        .setAutoCancel(true)
+                        .setSound(defaultSoundUri)
+                        .setVibrate(vibrationPattern)
+                        .setContentIntent(pendingIntent); // Aggiungi qui l'intent desiderato
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && notificationManager != null) {
+        // Crea e mostra la notifica con il sistema di notifica Android
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        String channelId = "100"; // Imposta il tuo ID del canale
+        Uri defaultSoundUriUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
-            /* Create or update. */
-            int importance = NotificationManager.IMPORTANCE_HIGH;
-            NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL, getString(R.string.app_name), importance);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // Creare il canale di notifica per le versioni di Android superiori a Oreo
+            NotificationChannel channel = new NotificationChannel(channelId, "Channel Name", NotificationManager.IMPORTANCE_DEFAULT);
+            channel.setVibrationPattern(vibrationPattern);
+            channel.setSound(defaultSoundUri, null);
+            channel.setLockscreenVisibility(1);
             notificationManager.createNotificationChannel(channel);
         }
-        notificationManager.notify(100, notification);
+        notificationManager.notify(100, notificationBuilder.build());
+
     }
 
     @Override

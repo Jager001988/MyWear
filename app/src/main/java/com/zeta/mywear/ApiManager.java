@@ -24,6 +24,7 @@ public class ApiManager {
     private static final String LISTINTERVENTI = "/listInterventi";
     private static final String UPDATEINTERVENTO = "/updateIntervento";
     private static final String SENDTOKEN = "/sendToken";
+    private static final String LOGOUT = "/logout";
 
     // Metodo per eseguire una chiamata GET
     public static void get(String baseUrl, String token, ApiCallback callback) {
@@ -44,6 +45,13 @@ public class ApiManager {
         JSONObject requestBody = new JSONObject();
         requestBody.put("tokenFireBase", tokenFireBase);
         new ApiTask(callback).execute(url, "POST", requestBody.toString(), token);
+    }
+
+    public static void logout(String baseUrl,String token, String tokenFireBase, ApiCallback callback) throws JSONException {
+        String url = baseUrl + LOGOUT+ "?tokenFireBase="+tokenFireBase;
+        JSONObject requestBody = new JSONObject();
+        requestBody.put("tokenFireBase", tokenFireBase);
+        new ApiTask(callback).execute(url, "GET", null, token);
     }
 
     public static void countInterventi(String baseUrl,String token, ApiCallback callback) throws JSONException {
@@ -116,7 +124,6 @@ public class ApiManager {
                     con.setRequestProperty( "charset", "utf-8" );
                     con.connect();
                     int status = con.getResponseCode();
-                    //TODO !=200 logut
                     try(BufferedReader br = new BufferedReader(
                             new InputStreamReader(con.getInputStream(), "utf-8"))) {
                         StringBuilder response = new StringBuilder();
